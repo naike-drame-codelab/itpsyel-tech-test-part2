@@ -75,7 +75,7 @@ Le fichier `lib/bulletinService.ts` centralise toute la logique métier de gén�
 5. **Retour** :
 	- Retourne un objet `{ bulletins, anomalies }` utilisé par les API et les pages.
 
-```
+---
 
 ## Rôle de l’IA dans le développement
 
@@ -84,6 +84,5 @@ L’IA (GitHub Copilot) a joué un rôle clé dans :
 - La correction de la logique de `/lib/bulletinService`
 - La documentation additionnelle de ce README.
 
----
 
 
