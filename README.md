@@ -1,40 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Application Bulletins ECTS – ITPSYEL Tech Test
 
-## Getting Started
+## Présentation
 
-First, run the development server:
+Cette application web permet de générer et consulter des bulletins de notes ECTS pour les étudiants, ainsi que de visualiser un rapport d’anomalies pour le contrôle qualité. Elle a été développée dans le cadre d’un test technique, en adoptant les standards modernes de Next.js (App Router) et en intégrant une logique métier avancée.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Fonctionnalités principales
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- **Accueil** : Page d’introduction et navigation vers les modules principaux.
+- **Bulletins ECTS** :
+  - Affichage des bulletins de notes pour chaque étudiant et chaque année.
+  - Calcul automatique des crédits ECTS obtenus, de la moyenne pondérée, et du statut de réussite.
+- **Rapport d’anomalies** :
+  - Détection et affichage des incohérences ou erreurs dans les données d’inscription, de notes ou de cours.
+- **API REST** :
+  - Endpoints `/api/bulletins` et `/api/anomalies` pour exposer les données calculées côté serveur.
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+---
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+## Stack technique
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Next.js 15 (App Router)** : Framework React moderne, structure `app/` pour le routage et les API.
+- **React 18** : Pour la construction d’interfaces réactives et performantes.
+- **TypeScript** : Typage statique pour la robustesse du code.
+- **Prisma** : ORM pour la gestion de la base de données (SQLite en local, facilement adaptable).
+- **React-Bootstrap & Bootstrap 5** : UI moderne et responsive.
+- **Axios** : Requêtes HTTP vers des APIs distantes pour la récupération des données brutes.
 
-## Learn More
+---
+## Lancer le projet
 
-To learn more about Next.js, take a look at the following resources:
+1. Installer les dépendances :
+	```bash
+	npm install
+	```
+2. Générer la base de données (optionnel, si usage Prisma local) :
+	```bash
+	npx prisma migrate dev --name init
+	```
+3. Démarrer le serveur :
+	```bash
+	npm run dev
+	```
+4. Accéder à l’application sur [http://localhost:3000](http://localhost:3000)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Rôle de l’IA dans le développement
 
-## Deploy on Vercel
+L’intelligence artificielle (GitHub Copilot) a joué un rôle clé dans :
+- La correction des erreurs de compatibilité (React 18, Bootstrap, etc.).
+- La correction de la logique de `/lib/bulletinService`
+- La documentation additionnelle de ce README.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+

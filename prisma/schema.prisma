@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Student {
+  matricule String @id
+  nom       String
+  prenom    String
+  inscriptions Inscription[]
+}
+
+model Inscription {
+  id              String  @id @default(uuid())
+  matricule       String
+  annee           Int
+  cours_json      Json
+  notes           Json
+  student         Student @relation(fields: [matricule], references: [matricule])
+  anomalies       Anomaly[]
+}
+
+model Anomaly {
+  id          String @id @default(uuid())
+  type        String
+  matricule   String
+  annee       Int
+  detail      String
+  inscription Inscription @relation(fields: [inscriptionId], references: [id])
+  inscriptionId String
+}
