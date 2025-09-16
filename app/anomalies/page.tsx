@@ -26,7 +26,7 @@ export default function Page() {
   }, []);
 
   if (loading) {
-    return <Container className="my-5"><p>Loading...</p></Container>;
+    return <Container className="my-5"><p>Chargement...</p></Container>;
   }
   if (error) {
     return <Container className="my-5"><Alert variant="danger">Error: {error}</Alert></Container>;

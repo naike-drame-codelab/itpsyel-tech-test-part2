@@ -10,10 +10,10 @@ export default function Page() {
         <Row className="justify-content-center text-center">
           <Col md={8}>
             <h1 className="display-4 mb-4">
-              Bienvenue à l'Application des Bulletins ECTS
+              Application des Bulletins ECTS
             </h1>
             <p className="lead mb-5">
-              Utilisez cette application pour générer des bulletins de notes détaillés et un rapport d'anomalies pour le contrôle qualité.
+              Générations des bulletins de notes détaillés et un rapport d'anomalies pour le contrôle qualité.
             </p>
           </Col>
         </Row>
@@ -23,7 +23,7 @@ export default function Page() {
               <CardBody className="text-center">
                 <h5 className="card-title">Bulletins ECTS</h5>
                 <p className="card-text">
-                  Consultez les bulletins de notes pour chaque étudiant et chaque année.
+                  Page des bulletins de notes pour chaque étudiant et chaque année.
                 </p>
                 <Link href="/bulletins" passHref>
                   <Button variant="primary" className="mt-3">
@@ -38,7 +38,7 @@ export default function Page() {
               <CardBody className="text-center">
                 <h5 className="card-title">Rapport d'Anomalies</h5>
                 <p className="card-text">
-                  Générez un rapport détaillé des anomalies de données.
+                  Page regroupant les anomalies détectées dans les bulletins.
                 </p>
                 <Link href="/anomalies" passHref>
                   <Button variant="info" className="mt-3">

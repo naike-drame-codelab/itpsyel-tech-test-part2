@@ -50,7 +50,7 @@ export const generateReports = async () => {
     const bulletins: Bulletin[] = [];
     const anomalies: Anomaly[] = [];
 
-    // Build course map for quick lookup
+    // Mapping des cours pour un accès rapide
     const courseMap = new Map<string, Course>();
     courses.forEach((c: any) => {
         courseMap.set(c.mnemonique, {
@@ -61,7 +61,7 @@ export const generateReports = async () => {
         });
     });
 
-    // Build notes map and check for DUPLICATA_NOTE
+    // DUPLICATA_NOTE
     const notesMap = new Map<string, { note: number, id: number }>();
     notes.forEach((n: any) => {
         const key = `${n.matricule}-${n.mnemonique}`;
@@ -70,14 +70,13 @@ export const generateReports = async () => {
                 type: 'DUPLICATA_NOTE',
                 matricule: n.matricule,
                 annee: n.annee || 0,
-                detail: `Multiple notes for ${n.mnemonique}`
+                detail: `Notes multiples pour ${n.mnemonique}`
             });
         } else {
             notesMap.set(key, { note: n.note, id: n.id });
         }
     });
 
-    // For each student/inscription
     students.forEach((student: any) => {
         let coursList: string[] = [];
         try {
@@ -87,17 +86,17 @@ export const generateReports = async () => {
                 type: 'COURS_JSON_PARSE_ERROR',
                 matricule: student.matricule,
                 annee: student.annee_etude,
-                detail: 'cours_json could not be parsed',
+                detail: 'cours_json non parsé',
             });
         }
 
-        // Check for INSCRIPTION_SANS_COURS
+        // INSCRIPTION_SANS_COURS
         if (!coursList || coursList.length === 0) {
             anomalies.push({
                 type: 'INSCRIPTION_SANS_COURS',
                 matricule: student.matricule,
                 annee: student.annee_etude,
-                detail: 'cours_json is empty',
+                detail: 'cours_json vide',
             });
         }
 
@@ -109,19 +108,23 @@ export const generateReports = async () => {
         const bulletinDetails: any[] = [];
         const inscritsSet = new Set(coursList);
 
+        // Parcourir les cours inscrits
+        // NOTE_SANS_INSCRIPTION
         coursList.forEach((mnemonique) => {
             const course = courseMap.get(mnemonique);
             if (!course) {
+                // COURS_INCONNU
                 anomalies.push({
                     type: 'COURS_INCONNU',
                     matricule: student.matricule,
                     annee: student.annee_etude,
-                    detail: `Inscrit course ${mnemonique} not found in liste_cours`,
+                    detail: `Inscrit au cours ${mnemonique} non trouvé dans liste_cours`,
                 });
             }
             const noteObj = notesMap.get(`${student.matricule}-${mnemonique}`);
             const note = noteObj ? noteObj.note : null;
 
+            // Calcul des ECTS et de la moyenne
             if (course) {
                 ects_total_inscrits += course.credit || 0;
                 if (note !== null && note !== undefined) {
@@ -139,7 +142,7 @@ export const generateReports = async () => {
                         type: 'NOTE_SANS_CREDIT',
                         matricule: student.matricule,
                         annee: student.annee_etude,
-                        detail: `Note found for course ${mnemonique} but credit is missing or invalid`,
+                        detail: `Note trouvée pour le cours ${mnemonique} mais le crédit est manquant ou invalide`,
                     });
                 }
                 bulletinDetails.push({
@@ -167,14 +170,16 @@ export const generateReports = async () => {
                     type: 'NOTE_SANS_INSCRIPTION',
                     matricule: n.matricule,
                     annee: student.annee_etude,
-                    detail: `Note exists for ${n.mnemonique} but not in cours_json`,
+                    detail: `Note existante pour ${n.mnemonique} mais pas dans cours_json`,
                 });
             }
         });
 
+        // Calcul de la moyenne pondérée et de la réussite
         const moyenne_ponderee = sum_credits_noted > 0 ? sum_notes_credits / sum_credits_noted : null;
         const reussite = ects_obtenus >= 60 || (has_all_notes && (moyenne_ponderee !== null && moyenne_ponderee >= 10));
 
+        // Création du bulletin
         bulletins.push({
             matricule: student.matricule,
             nom: student.nom,
