@@ -1,4 +1,4 @@
-# Application Bulletins ECTS & Rapport d'anomalies
+# Application - Bulletins ECTS & Rapport d'anomalies
 
 ## Présentation
 
